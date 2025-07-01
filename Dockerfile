@@ -23,6 +23,9 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Копируем backend код  
+COPY backend/ /app/
+
 # Копируем фронтенд и компилируем TypeScript
 COPY frontend/ /app/frontend/
 WORKDIR /app/frontend
@@ -31,9 +34,6 @@ RUN npm run build
 
 # Возвращаемся в основную директорию
 WORKDIR /app
-
-# Копируем backend код
-COPY backend/ /app/
 
 # Устанавливаем Playwright браузеры
 RUN python -m playwright install chromium

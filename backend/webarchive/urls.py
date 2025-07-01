@@ -9,7 +9,7 @@ urlpatterns = [
     path('', views.home_view, name='home'),  # Главная страница
     path('admin/', admin.site.urls),
     path('api/v1/archive/', include('archive.urls')),
-    path('api/v1/crawler/', include('crawler.urls')),
+        path('api/v1/crawler/', include('crawler.urls')),
     
     # Статические файлы фронтенда
     path('styles.css', views.frontend_static, {'filename': 'styles.css'}, name='frontend_css'),

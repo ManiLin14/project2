@@ -11,7 +11,7 @@ import os
 def home_view(request):
     """Главная страница веб-архива"""
     # Путь к фронтенд файлам
-    frontend_path = os.path.join(settings.BASE_DIR.parent, 'frontend')
+    frontend_path = '/app/frontend'
     
     # Читаем HTML файл
     try:
@@ -19,12 +19,12 @@ def home_view(request):
             html_content = f.read()
         return HttpResponse(html_content)
     except FileNotFoundError:
-        return HttpResponse('<h1>Фронтенд не найден</h1>')
+        return HttpResponse('<h1>Фронтенд не найден. Проверьте что frontend/index.html существует.</h1>')
 
 
 def frontend_static(request, filename):
     """Отдача статических файлов фронтенда"""
-    frontend_path = os.path.join(settings.BASE_DIR.parent, 'frontend')
+    frontend_path = '/app/frontend'
     file_path = os.path.join(frontend_path, filename)
     
     if not os.path.exists(file_path):
@@ -44,4 +44,5 @@ def frontend_static(request, filename):
             content = f.read()
         return HttpResponse(content, content_type=content_type)
     except Exception as e:
-        return HttpResponse(f'Ошибка чтения файла: {str(e)}', status=500) 
+        return HttpResponse(f'Ошибка чтения файла: {str(e)}', status=500)
+ 
