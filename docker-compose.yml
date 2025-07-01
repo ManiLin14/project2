@@ -21,7 +21,7 @@ services:
       - archive_storage:/app/archives
 
   db:
-    image: postgres:15
+    image: postgres:16
     container_name: webarchive_db
     networks:
       - proxy
