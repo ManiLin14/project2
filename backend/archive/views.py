@@ -13,7 +13,7 @@ from .serializers import (
     WebsiteSerializer, ArchiveSnapshotSerializer,
     ArchiveSnapshotListSerializer, ArchivedPageSerializer
 )
-from encryption.file_encryption import ArchiveFileEncryption, ArchiveEncryption
+from encryption.file_encryption import ArchiveFileEncryption
 import logging
 import json
 from datetime import datetime
@@ -209,18 +209,17 @@ class ArchivedPageViewSet(viewsets.ReadOnlyModelViewSet):
         
         try:
             # Расшифровка контента
-            encryption = ArchiveEncryption()
+            encryption = ArchiveFileEncryption()
             
             # Расшифровка HTML контента
             html_content = None
-            if page.encrypted_content:
-                html_content = encryption.decrypt_content(page.encrypted_content)
+            if page._encrypted_content:
+                html_content = encryption.decrypt_html_content(page._encrypted_content)
             
             # Расшифровка метаданных
             metadata = {}
-            if page.encrypted_metadata:
-                metadata_json = encryption.decrypt_content(page.encrypted_metadata)
-                metadata = json.loads(metadata_json)
+            if page.snapshot._encrypted_metadata:
+                metadata = encryption.decrypt_archive_metadata(page.snapshot._encrypted_metadata)
             
             return Response({
                 'url': page.url,
@@ -229,7 +228,7 @@ class ArchivedPageViewSet(viewsets.ReadOnlyModelViewSet):
                 'metadata': metadata,
                 'status_code': page.status_code,
                 'content_type': page.content_type,
-                'created_at': page.created_at
+                'created_at': page.archived_at
             })
             
         except Exception as e:

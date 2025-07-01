@@ -92,6 +92,8 @@ class ArchivedPage(models.Model):
     snapshot = models.ForeignKey(ArchiveSnapshot, on_delete=models.CASCADE, related_name='pages')
     url = models.URLField(max_length=2048, verbose_name="URL страницы")
     title = models.CharField(max_length=500, blank=True, verbose_name="Заголовок")
+    status_code = models.IntegerField(default=200, verbose_name="HTTP статус")
+    content_type = models.CharField(max_length=100, default='text/html', verbose_name="MIME тип")
     archived_at = models.DateTimeField(default=timezone.now, verbose_name="Дата архивирования")
     
     # Зашифрованный контент
