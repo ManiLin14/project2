@@ -21,11 +21,6 @@ from datetime import datetime
 logger = logging.getLogger(__name__)
 
 
-def home_view(request):
-    """Главная страница веб-архива"""
-    return render(request, 'archive/home.html')
-
-
 class WebsiteViewSet(viewsets.ModelViewSet):
     """
     ViewSet для управления веб-сайтами
