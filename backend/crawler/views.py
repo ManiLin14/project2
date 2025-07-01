@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import get_object_or_404
 from celery.result import AsyncResult
 from archive.models import Website
@@ -13,6 +14,25 @@ from .tasks import crawl_website_task
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+# Функции-обертки для URL маршрутов
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def start_crawl(request):
+    """Функция-обертка для запуска сканирования"""
+    view = StartCrawlView()
+    view.request = request
+    return view.post(request)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def crawl_status(request, task_id):
+    """Функция-обертка для проверки статуса"""
+    view = CrawlStatusView()
+    view.request = request
+    return view.get(request, task_id)
 
 
 class StartCrawlView(APIView):
