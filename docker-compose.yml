@@ -5,7 +5,7 @@ services:
     build: .
     container_name: webarchive_django
     networks:
-      - proxy_network
+      - proxy
     environment:
       - DEBUG=False
       - DATABASE_URL=postgresql://webarchive:password@db:5432/webarchive
@@ -22,7 +22,7 @@ services:
     image: postgres:15
     container_name: webarchive_db
     networks:
-      - proxy_network
+      - proxy
     environment:
       - POSTGRES_DB=webarchive
       - POSTGRES_USER=webarchive
@@ -34,14 +34,14 @@ services:
     image: redis:7
     container_name: webarchive_redis
     networks:
-      - proxy_network
+      - proxy
 
   worker:
     build: .
     container_name: webarchive_worker
     command: celery -A webarchive worker -l info
     networks:
-      - proxy_network
+      - proxy
     environment:
       - DATABASE_URL=postgresql://webarchive:password@db:5432/webarchive
       - REDIS_URL=redis://redis:6379/0
