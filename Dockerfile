@@ -1,39 +1,49 @@
+# Используем Python 3.11 как базовый образ
 FROM python:3.11-slim
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
 
 # Устанавливаем системные зависимости
 RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
-    libpq-dev \
-    libffi-dev \
-    libssl-dev \
+    wget \
+    gnupg \
     curl \
+    unzip \
+    xvfb \
     && rm -rf /var/lib/apt/lists/*
 
-# Устанавливаем рабочую директорию
-WORKDIR /app
+# Устанавливаем Node.js для компиляции TypeScript
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs
 
-# Копируем файл зависимостей
+# Копируем и устанавливаем зависимости Python
 COPY requirements.txt .
-
-# Устанавливаем Python зависимости
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Копируем фронтенд и компилируем TypeScript
+COPY frontend/ /app/frontend/
+WORKDIR /app/frontend
+RUN npm install
+RUN npm run build
+
+# Возвращаемся в основную директорию
+WORKDIR /app
+
+# Копируем backend код
+COPY backend/ /app/
+
 # Устанавливаем Playwright браузеры
-RUN playwright install chromium
+RUN python -m playwright install chromium
+RUN python -m playwright install-deps
 
-# Копируем код приложения
-COPY backend/ .
+# Создаем директории для медиа и статических файлов
+RUN mkdir -p /app/media /app/staticfiles
 
-# Создаем директории для архивов
-RUN mkdir -p /app/archives /app/media /app/static
-
-# Устанавливаем переменные окружения
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
-# Экспонируем порт только внутренне для proxy
+# Открываем порт (только внутри контейнера)
 EXPOSE 8000
 
-# Команда запуска
+# Команда для запуска приложения
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"] 

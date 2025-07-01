@@ -1,0 +1,13 @@
+{
+  "name": "webarchive-frontend",
+  "version": "1.0.0",
+  "description": "Web Archive Frontend TypeScript",
+  "scripts": {
+    "build": "tsc main.ts --target es2020 --lib es2020,dom --outDir .",
+    "watch": "tsc main.ts --target es2020 --lib es2020,dom --outDir . --watch"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {}
+} 

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Archive - Архив веб-сайтов</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">
+                <span class="logo-icon">🌐</span>
+                Web Archive
+            </h1>
+            <nav class="nav">
+                <a href="#" class="nav-link active">Главная</a>
+                <a href="#" class="nav-link">Поиск</a>
+                <a href="#" class="nav-link">История</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Секция поиска и добавления -->
+            <section class="search-section">
+                <h2>Архивирование веб-сайтов</h2>
+                <p class="search-description">
+                    Введите URL сайта для создания архивной копии или найдите существующие снепшоты
+                </p>
+                
+                <div class="search-form">
+                    <input 
+                        type="url" 
+                        id="urlInput" 
+                        placeholder="https://example.com" 
+                        class="url-input"
+                        required
+                    >
+                    <button id="archiveBtn" class="btn btn-primary">
+                        <span class="btn-icon">📁</span>
+                        Архивировать
+                    </button>
+                    <button id="searchBtn" class="btn btn-secondary">
+                        <span class="btn-icon">🔍</span>
+                        Найти
+                    </button>
+                </div>
+            </section>
+
+            <!-- Секция результатов -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <h3>Результаты</h3>
+                <div id="loadingSpinner" class="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Архивирование в процессе...</p>
+                </div>
+                <div id="resultsContainer"></div>
+            </section>
+
+            <!-- Секция последних архивов -->
+            <section class="recent-section">
+                <h3>Недавние архивы</h3>
+                <div id="recentArchives" class="archives-grid">
+                    <!-- Данные загружаются через TypeScript -->
+                </div>
+            </section>
+
+            <!-- Секция статистики -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalSites">0</div>
+                        <div class="stat-label">Сайтов</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalSnapshots">0</div>
+                        <div class="stat-label">Снепшотов</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalPages">0</div>
+                        <div class="stat-label">Страниц</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Модальное окно для просмотра архива -->
+    <div id="archiveModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Просмотр архива</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="archive-info">
+                    <div class="info-item">
+                        <label>URL:</label>
+                        <span id="modalUrl"></span>
+                    </div>
+                    <div class="info-item">
+                        <label>Дата архивирования:</label>
+                        <span id="modalDate"></span>
+                    </div>
+                    <div class="info-item">
+                        <label>Статус:</label>
+                        <span id="modalStatus"></span>
+                    </div>
+                </div>
+                <div class="archive-timeline" id="modalTimeline">
+                    <!-- Временная шкала снепшотов -->
+                </div>
+                <div class="archive-preview" id="modalPreview">
+                    <!-- Превью контента -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Web Archive. Архивирование веб-контента с шифрованием AES-256.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html> 
