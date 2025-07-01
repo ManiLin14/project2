@@ -10,7 +10,11 @@ services:
       - proxy
     environment:
       - DEBUG=False
-      - DATABASE_URL=postgresql://webarchive:password@db:5432/webarchive
+      - DB_HOST=db
+      - DB_NAME=webarchive
+      - DB_USER=webarchive
+      - DB_PASSWORD=password
+      - DB_PORT=5432
       - REDIS_URL=redis://redis:6379/0
       - SECRET_KEY=your_secret_key_here
     depends_on:
@@ -45,7 +49,11 @@ services:
     networks:
       - proxy
     environment:
-      - DATABASE_URL=postgresql://webarchive:password@db:5432/webarchive
+      - DB_HOST=db
+      - DB_NAME=webarchive
+      - DB_USER=webarchive
+      - DB_PASSWORD=password
+      - DB_PORT=5432
       - REDIS_URL=redis://redis:6379/0
     depends_on:
       - db
