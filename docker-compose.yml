@@ -57,6 +57,5 @@ volumes:
   archive_storage:
 
 networks:
-  proxy_network:
-    driver: bridge
-    internal: false 
+  proxy:
+    external: true
