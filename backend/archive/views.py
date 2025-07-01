@@ -4,7 +4,7 @@ API views для веб-архива
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
@@ -26,11 +26,11 @@ class WebsiteViewSet(viewsets.ModelViewSet):
     ViewSet для управления веб-сайтами
     """
     serializer_class = WebsiteSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     
     def get_queryset(self):
-        """Получаем только сайты текущего пользователя"""
-        return Website.objects.filter(created_by=self.request.user).order_by('-created_at')
+        """Получаем все сайты для демонстрации"""
+        return Website.objects.all().order_by('-created_at')
     
     @action(detail=True, methods=['get'])
     def snapshots(self, request, pk=None):
@@ -85,13 +85,11 @@ class ArchiveSnapshotViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet для просмотра снапшотов архивов
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     
     def get_queryset(self):
-        """Получаем только снапшоты сайтов текущего пользователя"""
-        return ArchiveSnapshot.objects.filter(
-            website__created_by=self.request.user
-        ).order_by('-created_at')
+        """Получаем все снапшоты для демонстрации"""
+        return ArchiveSnapshot.objects.all().order_by('-created_at')
     
     def get_serializer_class(self):
         """Выбираем сериализатор в зависимости от действия"""
@@ -194,13 +192,11 @@ class ArchivedPageViewSet(viewsets.ReadOnlyModelViewSet):
     ViewSet для просмотра архивированных страниц
     """
     serializer_class = ArchivedPageSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     
     def get_queryset(self):
-        """Получаем только страницы архивов текущего пользователя"""
-        return ArchivedPage.objects.filter(
-            snapshot__website__created_by=self.request.user
-        ).order_by('-created_at')
+        """Получаем все страницы архивов для демонстрации"""
+        return ArchivedPage.objects.all().order_by('-created_at')
     
     @action(detail=True, methods=['get'])
     def content(self, request, pk=None):
