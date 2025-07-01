@@ -4,6 +4,8 @@ services:
   web:
     build: .
     container_name: webarchive_django
+    ports:
+      - "8000:8000"
     networks:
       - proxy
     environment:
