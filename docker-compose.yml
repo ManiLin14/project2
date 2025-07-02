@@ -19,9 +19,8 @@ services:
       - SECRET_KEY=your_secret_key_here
     volumes:
       - ./backend:/app
-      - ./frontend:/app
+      - ./frontend:/app/frontend
       - archive_storage:/app/archives
-      - ./frontend:/app
 
   db:
     image: postgres:16
