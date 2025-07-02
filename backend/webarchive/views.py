@@ -11,7 +11,7 @@ import os
 def home_view(request):
     """Главная страница веб-архива"""
     # Путь к фронтенд файлам
-    frontend_path = '/app/frontend'
+    frontend_path = os.path.join(settings.BASE_DIR, 'frontend')
     
     # Читаем HTML файл
     try:
@@ -24,7 +24,7 @@ def home_view(request):
 
 def frontend_static(request, filename):
     """Отдача статических файлов фронтенда"""
-    frontend_path = '/app/frontend'
+    frontend_path = os.path.join(settings.BASE_DIR, 'frontend')
     file_path = os.path.join(frontend_path, filename)
     
     if not os.path.exists(file_path):
