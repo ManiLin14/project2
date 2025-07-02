@@ -19,6 +19,7 @@ services:
       - SECRET_KEY=your_secret_key_here
     volumes:
       - ./backend:/app
+      - ./frontend:/app
       - archive_storage:/app/archives
 
   db:
